@@ -226,19 +226,17 @@ class _BulletedListIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textScaleFactor =
-        context.read<EditorState>().editorStyle.textScaleFactor;
+    final editorState = context.read<EditorState>();
+    final textConfig = editorState.editorStyle.textStyleConfiguration.text;
+    final textScaleFactor = editorState.editorStyle.textScaleFactor;
+    final combinedStyle = textConfig.combine(textStyle);
 
-    return Container(
-      constraints:
-          const BoxConstraints(minWidth: 26, minHeight: 22) * textScaleFactor,
-      padding: const EdgeInsets.only(right: 4.0),
-      child: Center(
-        child: Text(
-          icon,
-          style: textStyle,
-          textScaler: TextScaler.linear(0.5 * textScaleFactor),
-        ),
+    return SizedBox(
+      width: 26 * textScaleFactor,
+      child: Text(
+        icon,
+        style: combinedStyle,
+        textScaler: TextScaler.linear(textScaleFactor),
       ),
     );
   }
